@@ -63,6 +63,15 @@ def login():
     return render_template('login.html', error=error)
 
 
+@app.route('/files')
+def files():
+     if session.get('logged_in'):
+        images=get_uploaded_images()
+        return render_template('files.html',images=images)
+     return redirect(url_for('login'))
+
+
+
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
@@ -99,6 +108,14 @@ def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
+
+def get_uploaded_images():
+    rootdir= os.getcwd()
+    filenames=[]
+    for subdir, dirs, files in os.walk(rootdir + '/app/static/uploads'):
+	    for file in files:
+             filenames.append(os.path.join(subdir, file).split('/')[-1])
+    return filenames
 
 
 @app.errorhandler(404)

@@ -1,3 +1,10 @@
 body {
     padding-top: 5rem;
 }
+
+.flex-container{
+    
+    display: flex;
+    flex-wrap: wrap;
+
+}
